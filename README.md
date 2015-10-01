@@ -1,5 +1,5 @@
 # Runescape
-Old and new scripts that I wrote in my spare time to bot in the game Runescape
+Old and new scripts, written in my spare time to automate play in the game Runescape.
 
 
 <h3> The Old </h3>
