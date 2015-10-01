@@ -3,12 +3,12 @@ package Oldschool;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 //the rt6 package is for RS3. For OSRS scripts, you would use the rt4 package.
-import org.powerbot.script.rt6.ClientContext;
+import org.powerbot.script.rt4.ClientContext;
 
 @Script.Manifest(
         name = "Rawr",
         description = "Basic Script Example",
-        properties="client=6;"
+        properties="client=4;"
 )
 public class ExampleScript extends PollingScript<ClientContext> {
 
@@ -18,15 +18,15 @@ public class ExampleScript extends PollingScript<ClientContext> {
         System.out.println("Script Started!");
 
     }
-    final int goblinIds[] = {12357, 12352, 12353, 11236, 11234};
+//    final int goblinIds[] = {12357, 12352, 12353, 11236, 11234};
     @Override
     public void poll() {
 //
-        if(ctx.players.local().animation() == -1){
-//            for(ctx.groundItems.poll().)
-            ctx.npcs.select().name("Goblin").nearest().peek().interact("Attack");
-            ctx.groundItems.id(123).action("Take");
-        }
+//        if(ctx.players.local().animation() == -1){
+////            for(ctx.groundItems.poll().)
+//            ctx.npcs.select().name("Goblin").nearest().peek().interact("Attack");
+//            ctx.groundItems.id(123).action("Take");
+//        }
     }
 
     @Override

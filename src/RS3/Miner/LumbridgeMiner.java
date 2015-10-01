@@ -18,7 +18,7 @@ public class LumbridgeMiner extends PollingScript<ClientContext> {
     @Override
 
     public void start() {
-        taskList.addAll(Arrays.asList(new Mine(ctx), new Bank(ctx), new WalkToBank(ctx)));
+        taskList.addAll(Arrays.asList(new Mine(ctx), new Bank(ctx), new WalkToBank(ctx), new WalkToMine(ctx)));
 
     }
 

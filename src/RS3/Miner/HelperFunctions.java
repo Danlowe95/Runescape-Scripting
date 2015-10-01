@@ -29,7 +29,7 @@ public class HelperFunctions extends PollingScript<ClientContext>{
         return true;
     }
     public boolean atMine(){
-        return true;
+        return ;
     }
     public boolean atLowerStair(){
         return true;
