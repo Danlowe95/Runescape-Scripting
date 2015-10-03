@@ -8,28 +8,25 @@ import org.powerbot.script.rt6.ClientContext;
 import org.powerbot.script.rt6.TilePath;
 import org.powerbot.script.rt6.GameObject;
 import RS3.Miner.HelperFunctions;
-/**
- * Created by user on 9/30/2015.
- */
-public class WalkToMine extends Task<ClientContext> {
-    private HelperFunctions hf = new HelperFunctions();
-    public static final Tile[] PATHTOLADDER = {
-            new Tile(3232, 3152, 0),
-            new Tile(3231, 3150, 0),
-            new Tile(3237, 3166, 0),
-            new Tile(3241, 3180, 0),
-            new Tile(3243, 3193, 0),
-            new Tile(3238, 3205, 0),
-            new Tile(3232, 3216, 0),
-            new Tile(3222, 3217, 0),
-            new Tile(3210, 3210, 0)
-    };
+import java.time.chrono.HijrahEra;
 
-    public WalkToMine(ClientContext ctx) {
+
+public class WalkToMine extends Task<ClientContext> {
+    private HelperFunctions hf;
+    public static Tile[] PATHTOBANK;
+    private int location;
+    public WalkToMine(ClientContext ctx, HelperFunctions h) {
         super(ctx);
+        hf = h;
+        PATHTOBANK = hf.getPathToBank();
+        location = hf.getLocation();
     }
 
-    private TilePath pathToLadder;
+
+    @Override
+    public String name(){
+        return "Walk To Mine";
+    }
 
     @Override
     public boolean activate() {
@@ -39,27 +36,55 @@ public class WalkToMine extends Task<ClientContext> {
 
     @Override
     public void execute() {
+        if (location == 1)
+            walkLumbridge();
+        else if (location == 2)
+            walkVarrock();
+        else
+            ctx.controller.stop();
+
+    }
+
+    private TilePath pathToLadder;
+    public void walkLumbridge(){
         if (hf.atBank()) {
             final GameObject stairs = ctx.objects.select().id(36775).poll();
-            stairs.interact("Climb-down");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            if(!stairs.inViewport()){
+                ctx.movement.step(stairs);
+                ctx.camera.turnTo(stairs);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
 
+                }
+            }
+            if(stairs.inViewport()) {
+                stairs.interact("Climb-down");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
             }
         }
-        if (hf.atLowerStair()) {
-            pathToLadder = new TilePath(ctx, PATHTOLADDER).reverse();
+        final GameObject midStairs = ctx.objects.select().id(36774).nearest().poll();
+        final GameObject lowerStairs = ctx.objects.select().id(36773).nearest().poll();
+        if (lowerStairs.inViewport() || (!hf.atBank() && !midStairs.inViewport())) {
+
+            pathToLadder = new TilePath(ctx, PATHTOBANK).reverse();
             hf.walk(pathToLadder);
         }
-        if (hf.atMiddleStair()) {
-            ctx.objects.select().id(36774).nearest().poll().interact("Climb-down");
+
+        if (midStairs.inViewport()) {
+            midStairs.interact("Climb-down");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
 
             }
         }
+    }
+    private void walkVarrock(){
 
     }
 }

@@ -1,5 +1,6 @@
 package RS3.Miner;
 
+import jdk.nashorn.internal.runtime.Context;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 //the rt6 package is for RS3. For OSRS scripts, you would use the rt4 package.
@@ -12,21 +13,16 @@ import RS3.Miner.HelperFunctions;
  * Created by user on 9/30/2015.
  */
 public class WalkToBank extends Task<ClientContext> {
-    private HelperFunctions hf = new HelperFunctions();
-    public static final Tile[] PATHTOLADDER = {
-            new Tile(3231, 3150, 0),
-            new Tile(3237, 3166, 0),
-            new Tile(3241, 3180, 0),
-            new Tile(3243, 3193, 0),
-            new Tile(3238, 3205, 0),
-            new Tile(3232, 3216, 0),
-            new Tile(3222, 3217, 0),
-            new Tile(3210, 3210, 0)
-    };
-
-    public WalkToBank(ClientContext ctx) {
+    private HelperFunctions hf;
+    public static Tile[] PATHTOBANK;
+    private int location;
+    public WalkToBank(ClientContext ctx, HelperFunctions h) {
         super(ctx);
+        hf = h;
+        PATHTOBANK = hf.getPathToBank();
+        location = hf.getLocation();
     }
+
 
     private TilePath pathToLadder;
 
@@ -37,27 +33,48 @@ public class WalkToBank extends Task<ClientContext> {
     }
 
     @Override
+    public String name(){
+        return "Walk To Bank";
+    }
+    @Override
     public void execute() {
+        if (location == 1)
+            walkLumbridge();
+        else if (location == 2)
+            walkVarrock();
+        else
+            ctx.controller.stop();
+    }
+
+    public void walkLumbridge(){
         if (hf.atMine()) {
-            pathToLadder = new TilePath(ctx, PATHTOLADDER);
+            System.out.println("At Mine");
+            pathToLadder = new TilePath(ctx, PATHTOBANK);
             hf.walk(pathToLadder);
         }
-        if (hf.atLowerStair()) {
-            ctx.objects.select().id(36773).nearest().poll().interact("Climb-up");
+        final GameObject lowerStairs = ctx.objects.select().id(36773).nearest().poll();
+        if (lowerStairs.inViewport()){
+            System.out.println("See Stairs");
+            lowerStairs.interact("Climb-up");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
 
             }
         }
-        if (hf.atMiddleStair()) {
-            ctx.objects.select().id(36774).nearest().poll().interact("Climb-up");
+        final GameObject midStairs = ctx.objects.select().id(36774).nearest().poll();
+        if (midStairs.inViewport()) {
+            midStairs.interact("Climb-up");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
 
             }
         }
+    }
+    public void walkVarrock(){
 
     }
+
+
 }

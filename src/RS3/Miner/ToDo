@@ -1,5 +1,3 @@
-Create "RSAreas" or similar for each location and tie it to their at____ functions
-
-possibly an overlay?
-
-
+Works, needs better handling for fighting other players for rocks
+thoughts:
+continually watch rock being mined. If goes !valid, switch rock.

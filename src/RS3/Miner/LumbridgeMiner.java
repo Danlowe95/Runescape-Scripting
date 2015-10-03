@@ -9,17 +9,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 @Script.Manifest(
-        name = "Lumbridge miner",
-        description = "Basic Script Example",
+        name = "Miner",
+        description = "Mines Lumbridge and Varrock",
         properties="client=6;"
 )
 public class LumbridgeMiner extends PollingScript<ClientContext> {
     private List<Task> taskList = new ArrayList<Task>();
+
+    public HelperFunctions hf;
     @Override
-
     public void start() {
-        taskList.addAll(Arrays.asList(new Mine(ctx), new Bank(ctx), new WalkToBank(ctx), new WalkToMine(ctx)));
-
+        System.out.println("Started1");
+        hf = new HelperFunctions(2);
+        System.out.println("Started");
+        taskList.addAll(Arrays.asList(new Mine(ctx, hf), new Bank(ctx, hf), new WalkToBank(ctx, hf), new WalkToMine(ctx, hf)));
+        System.out.println("Tasks created");
     }
 
     @Override
@@ -28,6 +32,7 @@ public class LumbridgeMiner extends PollingScript<ClientContext> {
         for (Task task : taskList){
             if (task.activate()){
                 task.execute();
+                    System.out.println("Status: " + task.name());
             }
         }
     }

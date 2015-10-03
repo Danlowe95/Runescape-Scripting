@@ -11,4 +11,5 @@ public abstract class Task<C extends ClientContext> extends ClientAccessor<C>  {
     }
     public abstract boolean activate();
     public abstract void execute();
+    public abstract String name();
 }
