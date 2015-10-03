@@ -10,26 +10,46 @@ import org.powerbot.script.rt6.GameObject;
  */
 public class Mine extends Task<ClientContext> {
 
-    final int rockIDs[] = {3027, 3229, 3038};
+    final int rockIDs[];
+    HelperFunctions hf;
 
-    public Mine(ClientContext ctx){
+    public Mine(ClientContext ctx, HelperFunctions h) {
         super(ctx);
+        hf = h;
+        rockIDs = hf.getRocks();
     }
+
     @Override
     public boolean activate() {
-        return ctx.backpack.select().count() < 28 && !ctx.objects.select().id(rockIDs).isEmpty() && ctx.players.local().animation() == -1 && false;
+        return ctx.backpack.select().count() < 28 && !ctx.objects.select().id(rockIDs).isEmpty() && ctx.players.local().animation() == -1;
 
+    }
+
+    @Override
+    public String name() {
+        return "Mine";
     }
 
     @Override
     public void execute() {
         final GameObject rock = ctx.objects.select().id(rockIDs).nearest().poll();
-        if (rock.inViewport()) {
-            rock.interact("Mine");
-//                wait(200);
-        } else {
-            ctx.movement.step(rock);
-            ctx.camera.turnTo(rock);
+        while (rock.valid()) {
+            if (rock.inViewport() && ctx.players.local().animation() == -1) {
+                rock.interact("Mine");
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+
+                }
+            } else if (!rock.inViewport()) {
+                ctx.movement.step(rock);
+                ctx.camera.turnTo(rock);
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+
+            }
         }
     }
 }
