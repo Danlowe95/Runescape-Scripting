@@ -80,18 +80,18 @@ public class Bank extends Task<ClientContext> {
     }
     private void bankGeneric(){
         final GameObject bank = ctx.objects.select().id(boothIDs).nearest().poll();
-        if(!bank.inViewport()){
-            ctx.camera.turnTo(bank);
-            try {
-                Thread.sleep(700);
-            } catch (InterruptedException e) {
-
-            }
-        }
         if (!ctx.bank.open() && bank.inViewport()) {
             bank.interact("Bank");
             try {
                 Thread.sleep(500);
+            } catch (InterruptedException e) {
+
+            }
+        }if (!bank.inViewport()){
+            ctx.movement.step(bank);
+            ctx.camera.turnTo(bank);
+            try {
+                Thread.sleep(700);
             } catch (InterruptedException e) {
 
             }

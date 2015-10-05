@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="jagexappletviewer">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../jagexappletviewer.jar!/" />
+      <root url="jar://F:/Documents/Powerbot/jagexappletviewer.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

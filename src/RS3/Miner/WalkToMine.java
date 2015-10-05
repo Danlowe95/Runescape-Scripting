@@ -45,7 +45,7 @@ public class WalkToMine extends Task<ClientContext> {
 
     }
 
-    private TilePath pathToLadder;
+    private TilePath pathToBank;
     public void walkLumbridge(){
         if (hf.atBank()) {
             final GameObject stairs = ctx.objects.select().id(36775).poll();
@@ -71,8 +71,8 @@ public class WalkToMine extends Task<ClientContext> {
         final GameObject lowerStairs = ctx.objects.select().id(36773).nearest().poll();
         if (lowerStairs.inViewport() || (!hf.atBank() && !midStairs.inViewport())) {
 
-            pathToLadder = new TilePath(ctx, PATHTOBANK).reverse();
-            hf.walk(pathToLadder);
+            pathToBank = new TilePath(ctx, PATHTOBANK).reverse();
+            hf.walk(pathToBank);
         }
 
         if (midStairs.inViewport()) {
@@ -85,6 +85,8 @@ public class WalkToMine extends Task<ClientContext> {
         }
     }
     private void walkVarrock(){
+        pathToBank = new TilePath(ctx, PATHTOBANK).reverse();
+        hf.walk(pathToBank);
 
     }
 }

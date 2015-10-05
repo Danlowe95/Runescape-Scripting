@@ -16,15 +16,17 @@ public class WalkToBank extends Task<ClientContext> {
     private HelperFunctions hf;
     public static Tile[] PATHTOBANK;
     private int location;
+    private TilePath pathToBank;
     public WalkToBank(ClientContext ctx, HelperFunctions h) {
         super(ctx);
         hf = h;
         PATHTOBANK = hf.getPathToBank();
         location = hf.getLocation();
+        pathToBank = new TilePath(ctx, PATHTOBANK);
     }
 
 
-    private TilePath pathToLadder;
+
 
     @Override
     public boolean activate() {
@@ -40,19 +42,21 @@ public class WalkToBank extends Task<ClientContext> {
     public void execute() {
         if (location == 1)
             walkLumbridge();
-        else if (location == 2)
+        else if (location == 2){
             walkVarrock();
+
+        }
         else
             ctx.controller.stop();
     }
 
     public void walkLumbridge(){
-        if (hf.atMine()) {
-            System.out.println("At Mine");
-            pathToLadder = new TilePath(ctx, PATHTOBANK);
-            hf.walk(pathToLadder);
-        }
+        final GameObject midStairs = ctx.objects.select().id(36774).nearest().poll();
         final GameObject lowerStairs = ctx.objects.select().id(36773).nearest().poll();
+        if (!hf.atBank() && !lowerStairs.inViewport() && !midStairs.inViewport()) {
+            hf.walk(pathToBank);
+        }
+
         if (lowerStairs.inViewport()){
             System.out.println("See Stairs");
             lowerStairs.interact("Climb-up");
@@ -62,7 +66,7 @@ public class WalkToBank extends Task<ClientContext> {
 
             }
         }
-        final GameObject midStairs = ctx.objects.select().id(36774).nearest().poll();
+
         if (midStairs.inViewport()) {
             midStairs.interact("Climb-up");
             try {
@@ -73,7 +77,8 @@ public class WalkToBank extends Task<ClientContext> {
         }
     }
     public void walkVarrock(){
-
+        pathToBank = new TilePath(ctx, PATHTOBANK);
+        hf.walk(pathToBank);
     }
 
 

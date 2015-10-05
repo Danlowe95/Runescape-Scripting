@@ -8,6 +8,7 @@ import org.powerbot.script.rt6.GameObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.SwingUtilities;
 @Script.Manifest(
         name = "Miner",
         description = "Mines Lumbridge and Varrock",
@@ -19,11 +20,14 @@ public class LumbridgeMiner extends PollingScript<ClientContext> {
     public HelperFunctions hf;
     @Override
     public void start() {
-        System.out.println("Started1");
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                final Gui gui = new Gui();
+//                gui.setVisible(true);
+//            }
+//        });
         hf = new HelperFunctions(2);
-        System.out.println("Started");
         taskList.addAll(Arrays.asList(new Mine(ctx, hf), new Bank(ctx, hf), new WalkToBank(ctx, hf), new WalkToMine(ctx, hf)));
-        System.out.println("Tasks created");
     }
 
     @Override
@@ -31,8 +35,9 @@ public class LumbridgeMiner extends PollingScript<ClientContext> {
 
         for (Task task : taskList){
             if (task.activate()){
+                System.out.println("Status: " + task.name());
                 task.execute();
-                    System.out.println("Status: " + task.name());
+
             }
         }
     }

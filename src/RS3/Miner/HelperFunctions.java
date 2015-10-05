@@ -37,14 +37,16 @@ public class HelperFunctions extends PollingScript<ClientContext>{
 
     public static final Tile[] pathToBankVarrock = {
             new Tile(3286, 3368, 0),
-            new Tile(3290, 3375, 0),
+            new Tile(3289, 3373, 0),
+            new Tile(3291, 3381, 0),
             new Tile(3292, 3387, 0),
             new Tile(3290, 3398, 0),
             new Tile(3289, 3408, 0),
             new Tile(3285, 3417, 0),
             new Tile(3280, 3426, 0),
             new Tile(3271, 3428, 0),
-            new Tile(3261, 3428, 0)
+            new Tile(3261, 3428, 0),
+            new Tile(3253, 3421, 0)
     };
     //default to lumbridge if no location provided
     public HelperFunctions(){
@@ -59,7 +61,7 @@ public class HelperFunctions extends PollingScript<ClientContext>{
         if(loc == 1){
             bankLoc = lumbBank;
             mineLoc = lumbMine;
-            pathToBank = pathToBankVarrock;
+            pathToBank = pathToBankLumb;
             rockIDs = lumbRocks;
             boothIDs = lumbBankBooth;
             location = 1;
@@ -67,7 +69,7 @@ public class HelperFunctions extends PollingScript<ClientContext>{
         }else if (loc == 2){
             bankLoc = varrBank;
             mineLoc = varrMine;
-            pathToBank = pathToBankLumb;
+            pathToBank = pathToBankVarrock;
             rockIDs = varrIronRocks;
             boothIDs = varrBankBooth;
             location = 2;
@@ -93,7 +95,7 @@ public class HelperFunctions extends PollingScript<ClientContext>{
     public void walk(TilePath path){
         while(path.traverse()){
             try {
-                Thread.sleep(200);
+                Thread.sleep(600);
             } catch (InterruptedException e) {
 
             }

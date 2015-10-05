@@ -21,7 +21,7 @@ public class Mine extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        return ctx.backpack.select().count() < 28 && !ctx.objects.select().id(rockIDs).isEmpty() && ctx.players.local().animation() == -1;
+        return ctx.backpack.select().count() < 28 && !ctx.objects.select().id(rockIDs).isEmpty();
 
     }
 
@@ -33,11 +33,14 @@ public class Mine extends Task<ClientContext> {
     @Override
     public void execute() {
         final GameObject rock = ctx.objects.select().id(rockIDs).nearest().poll();
+        System.out.println("Executing Mine");
         while (rock.valid()) {
+
+            System.out.println("Rock is valid "+rock.tile().toString());
             if (rock.inViewport() && ctx.players.local().animation() == -1) {
                 rock.interact("Mine");
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(800);
                 } catch (InterruptedException e) {
 
                 }

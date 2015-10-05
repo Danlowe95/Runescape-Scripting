@@ -1,3 +1,18 @@
 Works, needs better handling for fighting other players for rocks
-thoughts:
-continually watch rock being mined. If goes !valid, switch rock.
+Code in:
+    -At lvl20, swap to iron rocks at varrock from lumb
+    -?? more for better xp til 80?
+    -?? more for better xp til 80?
+
+Walking:
+Try making the path ALL tiles along the path, see what happens? walking sucks right now.
+
+Mining:
+-Figure out how to make .valid actually work, or why it isn't working how it is expected to work.
+-Watch players around you, compare player locations with all reachable sides of all rocks. Decide what rock is most likely for us to mine, mine it.
+
+
+GUI:
+-get gui working.
+-let it choose between lumbridge and varrock
+-let it choose between banking and dropping
