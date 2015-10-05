@@ -34,7 +34,7 @@ public class LumbridgeMiner extends PollingScript<ClientContext> {
     public void poll() {
 
         for (Task task : taskList){
-            if (task.activate()){
+            if (    task.activate()){
                 System.out.println("Status: " + task.name());
                 task.execute();
 
